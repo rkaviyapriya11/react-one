@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+.navbar {
+    background-color: gray;
+    height: 50px;
+    width: 100%;
+}
+
+h3 {
+    margin: 10px;
+    float: left;
+}
+
+ul {
+    list-style-type: none;
+    float: right;
+    margin: 10px;
+}
+
+li {
+    display: inline;
+    padding: 20px;
+}
+
+li a {
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    transition: 0.5s;
+}
+li a:hover {
+    text-decoration: underline;
+    color: black;
+    width: 2px;
+    margin: 10px;
+    letter-spacing: 5px;
+}
