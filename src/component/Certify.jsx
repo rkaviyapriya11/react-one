@@ -2,68 +2,35 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import './Certify.css';
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 
 
 export default function Certify() {
-    const [name, setName] = useState('')
-    const [course, setCourse] = useState('')
-    const [coursenumber, setNumber] = useState('')
-    const [choosefile, setChoosefile] = useState('')
-    const { id } = useParams()
+    const [Name, setName] = useState('')
+    const [Course, setCourse] = useState('')
+    const [Certifynum, setCertifynum] = useState('')
 
-
+    // const { id } = useParams()
     function send() {
         const data = {
-            Name: name,
-            Course: course,
-            Number: coursenumber,
-            Choosefile: choosefile
+            Name: Name,
+            Course: Course,
+            Certifynum: Certifynum,
         }
 
-        axios.post('https://66fa5902afc569e13a9b5b81.mockapi.io/id', data)
+        axios.post('https://back-6tn1.onrender.com/add', data)
             .then(alert("success"))
             .catch(err => console.log(err))
+             window.location.href='/'
     }
     // get
     const [view, setview] = useState([])
     useEffect(() => {
-        axios.get('https://66fa5902afc569e13a9b5b81.mockapi.io/id')
+        axios.get('https://back-6tn1.onrender.com/find')
             .then(res => setview(res.data))
             .catch(err => console.log(err))
     })
-    // post
-
-    useEffect(() => {
-        axios.get('https://66fa5902afc569e13a9b5b81.mockapi.io/id/' + id)
-            .then(res => {
-                setName(res.data.name)
-                setCourse(res.data.course)
-                setNumber(res.data.coursenumber)
-                setChoosefile(res.data.choosefile)
-
-
-            }).catch((err) => console.log(err))
-    }, [id])
-
-    function update() {
-
-        axios.put('https://66fa5902afc569e13a9b5b81.mockapi.io/id' + id, {
-            Name: name,
-            Course: course,
-            Number: coursenumber,
-            Choosefile: choosefile
-
-        })
-            .then(() => {
-                alert("inserted")
-                window.location = '/certify'
-            }).catch((err) => console.log(err))
-    }
-
-
-    // 
     return (
         <div>
             <h1>Student Certificate</h1>
@@ -88,12 +55,10 @@ export default function Certify() {
                                 onChange={(e) => setCourse(e.target.value)}
 
                             /> <br /> <br />
-                            <input type="number" placeholder='CERTIFICATE NUMBER'
-                                onChange={(e) => setNumber(e.target.value)}
+                            <input type="Number" placeholder='CERTIFICATE NUMBER'
+                                onChange={(e) => setCertifynum(e.target.value)}
                             /> <br /> <br />
-                            <input type="text" placeholder='CHOOSE FILE'
-                                onChange={(e) => setChoosefile(e.target.value)}
-                                /><br /> <br />
+
                         </div>
                         <div class="modal-footer ">
                             <button onClick={send} type="button" class="btn btn-danger">Add</button>
@@ -102,7 +67,7 @@ export default function Certify() {
                     </div>
                 </div>
             </div>
-<br /> <br />
+            <br /> <br />
             <table className='table'>
                 <thead>
                     <tr>
@@ -110,7 +75,6 @@ export default function Certify() {
                         <th>Name</th>
                         <th>Course</th>
                         <th>Certificate Number</th>
-                        <th>File</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -123,13 +87,12 @@ export default function Certify() {
                                     <td>{index + 1}</td>
                                     <td>{item.Name}</td>
                                     <td>{item.Course}</td>
-                                    <td>{item.Number}</td>
-                                    <td>{item.Choosefile}</td>
+                                    <td>{item.Certifynum}</td>
                                     <td>
-                                        <Link to={`/update/${item.id}`} className='btn btn-success'></Link>
-                                        
+                                        <Link to={`/update/${item._id}`} className='btn btn-success'>edit</Link>
+
                                         <button className='btn btn-danger' onClick={() => {
-                                            axios.delete(`https://66fa5902afc569e13a9b5b81.mockapi.io/id/${item.id}`)
+                                            axios.delete(`https://back-6tn1.onrender.com/remove/${item._id}`)
                                                 .then(alert("data is deleted"))
                                                 .catch(err => console.log(err)
                                                 )
@@ -143,8 +106,6 @@ export default function Certify() {
             </table>
 
         </div>
-
-
     )
 }
 

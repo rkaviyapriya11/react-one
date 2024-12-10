@@ -3,17 +3,19 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 export default function Postlogin() {
-    const [name, setname] = useState('')
-    const [email, setemail] = useState('')
-    const [paw, setpaw] = useState('')
+    const [Name, setName] = useState('')
+    const [Course, setCourse] = useState('')
+    const [Certifynum, setCertifynum] = useState('')
     
+
     function send() {
         const data = {
-            Name: name,
-            Email: email,
-            Password: paw
+            Name: Name,
+            Course: Course,
+            Certifynum: Certifynum,
         }
-        axios.post('https://66fa5902afc569e13a9b5b81.mockapi.io/id', data)
+
+        axios.post('http://localhost:2301', data)
             .then(alert("success"))
             .catch(err => console.log(err)
             )
@@ -23,7 +25,7 @@ export default function Postlogin() {
     const [view, setview] = useState([])
 
     useEffect(() => {
-        axios.get('https://66fa5902afc569e13a9b5b81.mockapi.io/id')
+        axios.get('http://localhost:2301/find')
             .then((res) => setview(res.data))
             .catch(err => console.log(err)
             )
@@ -31,17 +33,37 @@ export default function Postlogin() {
 
     return (
         <div>
-            <h1>Post Login Page</h1>
-            <label>Enter Your Name</label>
-            <input type="text" value={name} onChange={(e) => { setname(e.target.value) }} />
-            <br /> <br />
-            <label >Enter Your Email Id</label>
-            <input type="email" name="" id="" value={email} onChange={(e) => { setemail(e.target.value) }} />
-            <br /> <br />
-            <label >Enter Your Password</label>
-            <input type="password" name="" id="" value={paw} onChange={(e) => { setpaw(e.target.value) }} />
-            <br /> <br />
-            <button onClick={send}>Submit</button>
+            <h1>Post Page</h1>
+           <div class="modal fade ms-5 " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content w-75 ms-5">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">ADD CERTIFICATE</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text"
+                                placeholder='STUDENT NAME'
+                                onChange={(e) => setName(e.target.value)}
+                            /> <br /> <br />
+                            <input type="text"
+                                placeholder=' COURSE'
+                                onChange={(e) => setCourse(e.target.value)}
+
+                            /> <br /> <br />
+                            <input type="number" placeholder='CERTIFICATE NUMBER'
+                                onChange={(e) => setCertifynum(e.target.value)}
+                            /> <br /> <br />
+
+                        </div>
+                        <div class="modal-footer ">
+                            <button onClick={send} type="button" class="btn btn-danger">Add</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br /><br />
 
             {/* get */}
             <table className='table'>
@@ -49,8 +71,8 @@ export default function Postlogin() {
                     <tr>
                         <th>S.no</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Password</th>
+                        <th>Course</th>
+                        <th>Certificate Number</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -62,15 +84,18 @@ export default function Postlogin() {
                                 <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{item.Name}</td>
-                                    <td>{item.Email}</td>
-                                    <td>{item.Password}</td>
+                                    <td>{item.Course}</td>
+                                    <th>{item.Certifynum}</th>
+                                    
                                     <td>
-                                        <Link to={`/update/${item.id}`} className='btn btn-success'>edit</Link>
+                                        <Link to={`/update/${item._id}`} className='btn btn-success'>Edit</Link>
                                         <button className='btn btn-danger' onClick={() => {
-                                            axios.delete(`https://66fa5902afc569e13a9b5b81.mockapi.io/id/${item.id}`)
-                                                .then(alert("data is deleted"))
-                                                .catch(err => console.log(err)
-                                                )
+                                            axios.delete(`http://localhost:2301/remove/${item._id}`)
+                                                .then(()=>{
+                                                    alert("data is deleted by kaviya")
+                                                    window.location.reload()
+                                                })
+                                                .catch(err=>console.log(err))
                                         }}>delete</button>
                                     </td>
                                 </tr>

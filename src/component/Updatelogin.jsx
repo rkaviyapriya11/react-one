@@ -3,44 +3,53 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 export default function Updatelogin() {
-    const [name, setname] = useState('')
-    const [email, setemail] = useState('')
-    const [paw, setpaw] = useState('')
+    const [Name, setName] = useState('')
+    const [Course, setCourse] = useState('')
+    const [Certifynum, setNumber] = useState('')
     const {id} = useParams()
 
     useEffect(() => {
-        axios.get('https://66fa5902afc569e13a9b5b81.mockapi.io/id/'+id)
+        axios.get(`https://back-6tn1.onrender.com/find/${id}`)
             .then(res => {
-                setname(res.data.Name)
-                setemail(res.data.Email)
-                setpaw(res.data.Password)
+                setName(res.data.Name)
+                setCourse(res.data.Course)
+                setNumber(res.data.Certifynum)
+           
             }).catch((err) => console.log(err))
     },[id])
 
     function update(){
-        axios.put('https://66fa5902afc569e13a9b5b81.mockapi.io/id/'+id,{
-            Name: name,
-            Email: email,
-            Password: paw
+        axios.put('https://back-6tn1.onrender.com/changes/'+id,{
+            Name: Name,
+            Course: Course,
+            Certifynum: Certifynum,
+          
         })
         .then(() => {
             alert("inserted")
-            window.location ='/create'
+            window.location ='/certify'
         }).catch((err) => console.log(err))
     }
     return (
-        <div>
-            <h1>Update Login Page</h1>
-            <label>Enter Your Name :</label>
-            <input type="text" value={name} onChange={(e) => {setname(e.target.value)} }/>
-            <br /> <br />
-            <label >Enter Your Emial Id :</label>
-            <input type="email" value={email} onChange={(e) => {setemail(e.target.value)}} />
-            <br /> <br />
-            <label >Enter Your Password</label>
-            <input type="password" name="" id="" value={paw} onChange={(e) => {setpaw(e.target.value)} }/>
-            <br /> <br />
-            <button onClick={update}>Submit</button>
-        </div>
+       <>
+
+                            <input type="text"
+                                placeholder='STUDENT NAME'
+                                value={Name}
+                                onChange={(e) => setName(e.target.value)}
+                            /> <br /> <br />
+                            <input type="text"
+                                placeholder=' COURSE'
+                                value={Course}
+                                onChange={(e) => setCourse(e.target.value)}
+                            /> <br /> <br />
+                            <input type="number" 
+                            placeholder='CERTIFICATE NUMBER'
+                            value={Certifynum}
+                                onChange={(e) => setNumber(e.target.value)}
+                            /> <br /> <br />
+                            <button onClick={update}>Submit</button>
+              
+       </>
     )
 }
