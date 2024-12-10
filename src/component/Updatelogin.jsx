@@ -27,7 +27,7 @@ export default function Updatelogin() {
         })
         .then(() => {
             alert("inserted")
-            window.location ='/certify'
+            window.location ='/'
         }).catch((err) => console.log(err))
     }
     return (

@@ -22,7 +22,7 @@ function App() {
      {/* <Certify />
      <Updatelogin /> */}
       <Routes>
-        <Route path='/certify' element={<Certify />}></Route>
+        <Route path='/' element={<Certify />}></Route>
         {/* <Route path='/login' element={<Login />}></Route> */}
         <Route path='/update/:id' element={<Updatelogin />}></Route>
         
