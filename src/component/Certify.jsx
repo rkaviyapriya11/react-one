@@ -90,7 +90,6 @@ export default function Certify() {
                                     <td>{item.Certifynum}</td>
                                     <td>
                                         <Link to={`/update/${item._id}`} className='btn btn-success'>edit</Link>
-
                                         <button className='btn btn-danger' onClick={() => {
                                             axios.delete(`https://back-6tn1.onrender.com/remove/${item._id}`)
                                                 .then(alert("data is deleted"))
